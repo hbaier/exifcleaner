@@ -32,14 +32,12 @@
 		"source-map-support": "^0.5"
 	},
 	"devDependencies": {
-		"@types/node": "^12.0",
-		"electron": "^11.0",
-		"electron-builder": "^22.8",
+		"electron": "^13.0",
+		"electron-builder": "^26.0",
 		"electron-webpack": "^2.8",
 		"electron-webpack-ts": "^4.0",
-		"prettier": "2.1",
-		"typescript": "^3.8",
-		"webpack": "^4.41"
+		"minimatch": "^10.0",
+		"webpack": "^5.102"
 	},
 	"np": {
 		"publish": false,
@@ -54,6 +52,16 @@
 		},
 		"appId": "com.exifcleaner",
 		"mac": {
+			"target": [
+				{
+					"target": "dmg",
+					"arch": [
+						"x64",
+						"arm64",
+						"universal"
+					]
+				}
+			],
 			"category": "public.app-category.graphics-and-images",
 			"darkModeSupport": true,
 			"extraResources": [

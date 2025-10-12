@@ -163,7 +163,7 @@ sub download_file {
 
   my $url     = EXIFTOOL_BASE_URL . $filename;
   my @command = (
-    'wget', '--no-clobber', '--directory-prefix', DOWNLOADS_WORKING_DIR, $url
+    'curl', '-O', '--output-dir', DOWNLOADS_WORKING_DIR, $url
   );
   run_command(@command);
 
@@ -195,7 +195,7 @@ sub extract_source_code {
   my $gzip_filename = shift;
 
   my @command = (
-    'tar', '-xvf', DOWNLOADS_WORKING_DIR . "/$gzip_filename",
+    'tar', '-xf', DOWNLOADS_WORKING_DIR . "/$gzip_filename",
     '-C',  DOWNLOADS_WORKING_DIR
   );
   run_command(@command);
@@ -207,8 +207,8 @@ sub extract_windows_exe {
   my $zip_filename = shift;
 
   my @command = (
-    'unzip', '-d', DOWNLOADS_WORKING_DIR, '-o',
-    DOWNLOADS_WORKING_DIR . "/$zip_filename"
+    'unzip', '-qn', DOWNLOADS_WORKING_DIR . "/$zip_filename",
+    '-d', DOWNLOADS_WORKING_DIR
   );
   run_command(@command);
 
@@ -282,7 +282,10 @@ sub verify_successful_install {
 # rename it from `exiftool(-k).exe` to `exiftool.exe` and move
 # it to the ExifCleaner Windows bin dir.
 sub copy_windows_binary {
-  my $from_path = DOWNLOADS_WORKING_DIR . '/exiftool(-k).exe';
+  my $windows_archive_filename = shift;
+
+  my ($windows_dir_name) = $windows_archive_filename =~ /^(.+)[.]zip$/;
+  my $from_path = DOWNLOADS_WORKING_DIR . "/$windows_dir_name/exiftool(-k).exe";
   my $to_path   = BIN_DIR_WINDOWS . '/exiftool.exe';
 
   my @command = ( 'cp', $from_path, $to_path );
@@ -356,7 +359,7 @@ sub run {
 
   header('Moving fresh binaries');
   copy_unix_binary($code_filename);
-  copy_windows_binary();
+  copy_windows_binary($windows_version_filename);
 
   header('Clean up downloads working directory');
   if ($cache_downloads_working_dir) {

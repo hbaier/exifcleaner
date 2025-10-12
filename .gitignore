@@ -296,10 +296,10 @@ yarn-error.log
 !.resources/nix/bin/.keep
 !.resources/win/bin/.keep
 
-# Explicitly include Travis CI configuration 
+# Explicitly include GitHub Actions configuration
 # that were being hit by the .gitignore rule .*
-!.travis.yml
+!.github/
 
-# Explicitly include Prettier configuration 
+# Explicitly include Prettier configuration
 # that was being hit by the .gitignore rule .*
 !.prettierrc

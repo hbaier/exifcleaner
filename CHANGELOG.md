@@ -2,7 +2,7 @@
 
 ## Next release (WIP)
 
-- Add CI pipeline with Travis CI
+- Add CI pipeline with GitHub Actions
 
 ### Features
 
